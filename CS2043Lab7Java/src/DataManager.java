@@ -4,16 +4,20 @@ public class DataManager {
 	Connection connection = null;
 	
 	public DataManager() {
-		 try {
-	         Class.forName("com.mysql.jdbc.Driver").newInstance();
-	     } catch (Exception e) {
-	      System.err.println(e.toString());
-	     }
-		String url = "jdbc:mysql://cs2043.cs.unb.ca:3306/wrho1";
 		try {
-		connection = DriverManager.getConnection(url, "wrho1", "C6nFZR6Q");
-		} catch (SQLException e) {
-		System.err.println("Database connection error.");
+	        	Class.forName("com.mysql.jdbc.Driver").newInstance();
+	     	}
+		catch (Exception e) {
+	      		System.err.println(e.toString());
+	     	}
+		
+		String url = "jdbc:mysql://database_connection/database_name";
+		
+		try {
+			connection = DriverManager.getConnection(url, "username", "password");
+		}
+		catch (SQLException e) {
+			System.err.println("Database connection error.");
 		}
 	}
 	
