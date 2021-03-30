@@ -23,13 +23,12 @@ import java.sql.CallableStatement;
 
 
 public class AcceptStudentGUI extends Application {
+	private TextField nameField;
+	private TextField emailField;
+	private TextField averageField;
+	private Text response;
 
-private TextField nameField;
-private TextField emailField;
-private TextField averageField;
-private Text response;
-
-public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Accept a Student");
 
 		Label nameLabel = new Label ("Name:");
@@ -61,14 +60,14 @@ public void start(Stage primaryStage) {
 		Button accept = new Button("Accept");
 		accept.setOnAction(this::processAcceptStudent);
 		Button quit = new Button("Quit");
-    quit.setOnAction(this::quitApp);
+    		quit.setOnAction(this::quitApp);
 
 		response = new Text("");
 
 		GridPane grid = new GridPane();
-    grid.setHgap(10);
-    grid.setVgap(10);
-    grid.setPadding(new Insets(0, 10, 0, 10));
+    		grid.setHgap(10);
+    		grid.setVgap(10);
+    		grid.setPadding(new Insets(0, 10, 0, 10));
 
 		// Row 1: Buttons
 		grid.add(accept, 0, 0);
@@ -103,44 +102,44 @@ public void start(Stage primaryStage) {
 
 			else {
 				String studentName = nameField.getText();
-	      String studentEmail = emailField.getText();
-	      String avgTemp = averageField.getText();
-	      float hsAverage = Float.parseFloat(avgTemp);
-
+				String studentEmail = emailField.getText();
+				String avgTemp = averageField.getText();
+				float hsAverage = Float.parseFloat(avgTemp);
 				Connection conn = this.openConnection();
 
-	      String query = "{CALL AcceptStudents(?,?,?)}";
-	      CallableStatement stmt = conn.prepareCall(query);
-	      stmt.setString(1,studentName);
-	      stmt.setString(2,studentEmail);
-	      stmt.setFloat(3,hsAverage);
-	      stmt.executeQuery();
+				String query = "{CALL AcceptStudents(?,?,?)}";
+				CallableStatement stmt = conn.prepareCall(query);
+				stmt.setString(1,studentName);
+				stmt.setString(2,studentEmail);
+				stmt.setFloat(3,hsAverage);
+				stmt.executeQuery();
 
 				response.setText("Student accepted.");
 				response.setFill(Color.GREEN);
 
-	      this.closeConnection(conn);
+	      			this.closeConnection(conn);
 			}
-    }//end try
+    		}//end try
+		
 		catch (SQLException e) {
 			response.setText(e.getMessage());
 			response.setFill(Color.RED);
-    }
+    		}
 	}
 
 	public void quitApp(ActionEvent event){
-			Platform.exit();
-			System.exit(0);
+		Platform.exit();
+		System.exit(0);
 	}
 
 	private Connection openConnection() {
-		final String url = "jdbc:mysql://cs1103.cs.unb.ca:3306/wrho1";
-		final String user = "wrho1";
-		final String password = "R6EQuS6W";
-		Connection conn = null;
+		final String url = "jdbc:mysql://database_connection/database_name";
+		final String user = "username";
+		final String password = "password";
+		Connection conn = null;	
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-		}
+		}	
 		catch (Exception e) {
 			System.err.printf("Couldn't open a connection: (%s)", e.getMessage());
 		}
